@@ -18,6 +18,7 @@ public class EmployeeDTO {
     private String phoneNumber;
     private LocalDate hireDate;
     private String jobTitle;
-    private String departmentName;
-    private String managerName;
+    private BigDecimal departmentId;
+    private BigDecimal managerId;
+    private BigDecimal commissionPct;
 }

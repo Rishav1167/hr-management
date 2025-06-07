@@ -9,15 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmployeeMapper {
 
-    public  EmployeeDTO toDTO(Employee employee) {
+    public EmployeeDTO toDTO(Employee employee) {
         if (employee == null) return null;
 
         String jobTitle = employee.getJob() != null ? employee.getJob().getJobTitle() : null;
-        String departmentName = employee.getDepartment() != null ? employee.getDepartment().getDepartmentName() : null;
-        String managerName = employee.getManager() != null
-                ? employee.getManager().getFirstName() + " " + employee.getManager().getLastName()
-                : null;
-
+        
         return new EmployeeDTO(
                 employee.getEmployeeId(),
                 employee.getFirstName(),
@@ -26,12 +22,13 @@ public class EmployeeMapper {
                 employee.getPhoneNumber(),
                 employee.getHireDate(),
                 jobTitle,
-                departmentName,
-                managerName
+                employee.getDepartment() != null ? employee.getDepartment().getDepartmentId() : null,
+                employee.getManager() != null ? employee.getManager().getEmployeeId() : null,
+                employee.getCommissionPct()
         );
     }
 
-    public  Employee toEntity(EmployeeDTO dto, Job job, Department department, Employee manager) {
+    public Employee toEntity(EmployeeDTO dto, Job job, Department department, Employee manager) {
         if (dto == null) return null;
 
         Employee employee = new Employee();
@@ -44,6 +41,7 @@ public class EmployeeMapper {
         employee.setJob(job);
         employee.setDepartment(department);
         employee.setManager(manager);
+        employee.setCommissionPct(dto.getCommissionPct());
 
         return employee;
     }
